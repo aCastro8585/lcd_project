@@ -33,7 +33,7 @@ public class LineReader {
 				    }
 	    	    else
 			    {
-				    if (!isNumber.matcher(lineArray[0]).matches()){
+				    if (!isNumber.matcher(lineArray[0]).matches()){ //check if size is a number
 				    	message+= "Size not a Number. ";
 				    }
 				   		    
