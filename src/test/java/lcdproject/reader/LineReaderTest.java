@@ -57,7 +57,7 @@ public class LineReaderTest {
 
 	@Test
 	public void canCheckIfNumberIsSpecifiedInString() {
-		String errorMessage = "Invalid Line Sintax: Specify a Number. ";
+		String errorMessage = "Invalid Line Sintax: Specify a number to display. ";
 		assertEquals("LineReader returns error message for line with no specified number.", errorMessage,
 				LineReader.checkLine("2,"));
 		assertEquals("LineReader returns the original line if number is specified.", "2,3", LineReader.checkLine("2,3"));

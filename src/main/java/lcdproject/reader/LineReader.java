@@ -33,12 +33,15 @@ public class LineReader {
 					if (!isNumber.matcher(lineArray[0]).matches()) { // check if size is a number
 						message += "Size not a Number. ";
 					} else {
-						int size = Integer.parseInt(lineArray[0]); // check if size is in the range
+						int size = Integer.parseInt(lineArray[0]);
 
-						if (1 > size || size > 10)
+						if (1 > size || size > 10)// check if size is in the range
 							message += "Size out of range [1-10]. ";
 					}
 
+				}
+				if (lineArray.length == 1) { // check if number is specified
+					message += "Specify a number to display. ";
 				}
 			}
 
