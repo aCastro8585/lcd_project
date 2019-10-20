@@ -26,4 +26,12 @@ public class LineReaderTest {
 				LineReader.checkLine("2,3,2,,"));
 		assertEquals("LineReader returns the same line if separated with one comma.", "2,3", LineReader.checkLine("2,3"));
 	}
+	
+	@Test
+	public void canCheckIfSizeIsSpecifiedInString() {
+		String errorMessage = "Invalid Line Sintax: Specify a Size. ";
+		assertEquals("LineReader returns error message for line with no specified size.", errorMessage,
+				LineReader.checkLine(",2"));
+		assertEquals("LineReader returns the same line if size is specified.", "2,3", LineReader.checkLine("2,3"));
+	}
 }

@@ -19,7 +19,7 @@ public class LineReader {
 		if (indexOfComma == -1) { // check for string without comma.
 			message += "Size and number must be separated by a comma.";
 		} else {
-			if (indexOfComma != checkMoreThanOneComma) {
+			if (indexOfComma != checkMoreThanOneComma) {  //check for two or more commas.
 
 				message += "Two or more commas.";
 		    	}
