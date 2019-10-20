@@ -54,4 +54,12 @@ public class LineReaderTest {
 		assertEquals("LineReader returns the orignal line if specified size is in range.", "2,3",
 				LineReader.checkLine("2,3"));
 	}
+
+	@Test
+	public void canCheckIfNumberIsSpecifiedInString() {
+		String errorMessage = "Invalid Line Sintax: Specify a Number. ";
+		assertEquals("LineReader returns error message for line with no specified number.", errorMessage,
+				LineReader.checkLine("2,"));
+		assertEquals("LineReader returns the original line if number is specified.", "2,3", LineReader.checkLine("2,3"));
+	}
 }
