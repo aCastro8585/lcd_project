@@ -21,7 +21,7 @@ public class LineReaderTest {
 	
 	@Test
 	public void canCheckTwoOrMoreCommasInString() {
-		String errorMessage = "Two or more commas.";
+		String errorMessage = "Invalid Line Sintax: Two or more commas.";
 		assertEquals("LineReader returns error message for line with two or more commas.", errorMessage,
 				LineReader.checkLine("2,3,2,,"));
 		assertEquals("LineReader returns the same line if separated with one comma.", "2,3", LineReader.checkLine("2,3"));
