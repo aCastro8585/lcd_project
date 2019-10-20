@@ -23,6 +23,14 @@ public class LineReader {
 
 				message += "Two or more commas.";
 		    	}
+			else {
+				String[] lineArray= line.split(",");
+	    	    if (lineArray[0].contentEquals("")) //check for not specified size.
+				    {
+				    	message+= "Specify a Size. ";
+				    }
+			}
+			
 		}
 		return (message.length() == 0) ? line : "Invalid Line Sintax: " + message; // returns the original line if no
 																					// errors found.

@@ -34,4 +34,12 @@ public class LineReaderTest {
 				LineReader.checkLine(",2"));
 		assertEquals("LineReader returns the same line if size is specified.", "2,3", LineReader.checkLine("2,3"));
 	}
+	
+	@Test
+	public void canCheckIfSizeIsaValidNumber() {
+		String errorMessage = "Invalid Line Sintax: Size not a Number. ";
+		assertEquals("LineReader returns error message if specified size is not a number.", errorMessage,
+				LineReader.checkLine("e,2"));
+		assertEquals("LineReader returns the same line if specified size is a number.", "2,3", LineReader.checkLine("2,3"));
+	}
 }
