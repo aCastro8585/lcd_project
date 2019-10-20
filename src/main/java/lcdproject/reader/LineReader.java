@@ -1,6 +1,9 @@
 package lcdproject.reader;
 
+import java.util.regex.Pattern;
+
 public class LineReader {
+	private static final Pattern isNumber = Pattern.compile("\\d+");
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -25,10 +28,16 @@ public class LineReader {
 		    	}
 			else {
 				String[] lineArray= line.split(",");
-	    	    if (lineArray[0].contentEquals("")) //check for not specified size.
-				    {
-				    	message+= "Specify a Size. ";
+	    	    if (lineArray[0].contentEquals("")) { //check for not specified size.
+				       message+= "Specify a Size. ";
 				    }
+	    	    else
+			    {
+				    if (!isNumber.matcher(lineArray[0]).matches()){
+				    	message+= "Size not a Number. ";
+				    }
+				   		    
+			    }
 			}
 			
 		}
