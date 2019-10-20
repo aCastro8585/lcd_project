@@ -62,4 +62,13 @@ public class LineReaderTest {
 				LineReader.checkLine("2,"));
 		assertEquals("LineReader returns the original line if number is specified.", "2,3", LineReader.checkLine("2,3"));
 	}
+	
+	@Test
+	public void canCheckIfNumberToDisplayIsaValidNumber() {
+		String errorMessage = "Invalid Line Sintax: Invalid number to display. ";
+		assertEquals("LineReader returns error message if specified number is not a number.", errorMessage,
+				LineReader.checkLine("2,e"));
+		assertEquals("LineReader returns the original line if specified number is a number.", "2,3",
+				LineReader.checkLine("2,3"));
+	}
 }
