@@ -2,6 +2,9 @@ package lcdproject.reader;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 import org.junit.Test;
 
 public class LineReaderTest {
@@ -20,6 +23,11 @@ public class LineReaderTest {
 				LineReader.checkLine("2,3"));
 	}
 
+	/*
+	 * This test checks the functionality of the checkLine method in LineReader. The
+	 * method should return an error message if the line has more than one comma.
+	 * 
+	 */
 	@Test
 	public void canCheckTwoOrMoreCommasInString() {
 		String errorMessage = "Invalid Line Sintax: Two or more commas.";
@@ -29,6 +37,12 @@ public class LineReaderTest {
 				LineReader.checkLine("2,3"));
 	}
 
+	/*
+	 * This test checks the functionality of the checkLine method in LineReader. The
+	 * method should return an error message if the size is not specified in the
+	 * line.
+	 * 
+	 */
 	@Test
 	public void canCheckIfSizeIsSpecifiedInString() {
 		String errorMessage = "Invalid Line Sintax: Specify a Size. ";
@@ -37,6 +51,11 @@ public class LineReaderTest {
 		assertEquals("LineReader returns the original line if size is specified.", "2,3", LineReader.checkLine("2,3"));
 	}
 
+	/*
+	 * This test checks the functionality of the checkLine method in LineReader. The
+	 * method should return an error message if the specified size is not a number.
+	 * 
+	 */
 	@Test
 	public void canCheckIfSizeIsaValidNumber() {
 		String errorMessage = "Invalid Line Sintax: Size not a Number. ";
@@ -46,6 +65,12 @@ public class LineReaderTest {
 				LineReader.checkLine("2,3"));
 	}
 
+	/*
+	 * This test checks the functionality of the checkLine method in LineReader. The
+	 * method should return an error message if the specified size is not the range
+	 * [1-10].
+	 * 
+	 */
 	@Test
 	public void canCheckIfSizeIsInRange() {
 		String errorMessage = "Invalid Line Sintax: Size out of range [1-10]. ";
@@ -55,14 +80,27 @@ public class LineReaderTest {
 				LineReader.checkLine("2,3"));
 	}
 
+	/*
+	 * This test checks the functionality of the checkLine method in LineReader. The
+	 * method should return an error message if the number to display is not
+	 * specified.
+	 * 
+	 */
 	@Test
 	public void canCheckIfNumberIsSpecifiedInString() {
 		String errorMessage = "Invalid Line Sintax: Specify a number to display. ";
 		assertEquals("LineReader returns error message for line with no specified number.", errorMessage,
 				LineReader.checkLine("2,"));
-		assertEquals("LineReader returns the original line if number is specified.", "2,3", LineReader.checkLine("2,3"));
+		assertEquals("LineReader returns the original line if number is specified.", "2,3",
+				LineReader.checkLine("2,3"));
 	}
-	
+
+	/*
+	 * This test checks the functionality of the checkLine method in LineReader. The
+	 * method should return an error message if the number to display is not valid
+	 * number.
+	 * 
+	 */
 	@Test
 	public void canCheckIfNumberToDisplayIsaValidNumber() {
 		String errorMessage = "Invalid Line Sintax: Invalid number to display. ";
@@ -70,5 +108,16 @@ public class LineReaderTest {
 				LineReader.checkLine("2,e"));
 		assertEquals("LineReader returns the original line if specified number is a number.", "2,3",
 				LineReader.checkLine("2,3"));
+	}
+
+	@Test
+	public void canReadInputLinesAndCallLcdPrintMethod() {
+		String testCases = "2,2\n,1\n1,3\ne,2\n3,\n\n";
+		InputStream inputStream = new ByteArrayInputStream(testCases.getBytes());
+
+		String correctMessage = "Call LCD.print() with arguments: (2,2)(3,1)(1,3)";
+		assertEquals("LineReader reads input stream and calls LCD.print() with the valid line inputs found.",
+				correctMessage, LineReader.readInputStream(inputStream));
+
 	}
 }

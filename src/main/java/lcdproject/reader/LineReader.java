@@ -11,7 +11,14 @@ public class LineReader {
 	}
 
 	/*
-	 * checkLine() checks the next invalid line inputs: 1- String without a comma.
+	 * checkLine() checks the next invalid line inputs: 
+	 * 1- String without a comma.
+	 * 2- String with more than one comma.
+	 * 3- String with no specified size.
+	 * 4- Size is a valid number.
+	 * 5- Size is in range.
+	 * 6- Number to display is specified.
+	 * 7- Number to display is a valid number.
 	 */
 
 	public static String checkLine(String line) {
@@ -34,14 +41,16 @@ public class LineReader {
 						message += "Size not a Number. ";
 					} else {
 						int size = Integer.parseInt(lineArray[0]);
-
 						if (1 > size || size > 10)// check if size is in the range
 							message += "Size out of range [1-10]. ";
 					}
-
 				}
 				if (lineArray.length == 1) { // check if number is specified
 					message += "Specify a number to display. ";
+				} else {
+					if (!isNumber.matcher(lineArray[1]).matches()) { // check if number to display is a number
+						message += "Invalid number to display. ";
+					}
 				}
 			}
 
