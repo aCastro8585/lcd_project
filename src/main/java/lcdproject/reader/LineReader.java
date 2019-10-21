@@ -1,24 +1,39 @@
 package lcdproject.reader;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.regex.Pattern;
 
 public class LineReader {
-	private static final Pattern isNumber = Pattern.compile("\\d+");
+	public static final Pattern isNumber = Pattern.compile("\\d+");
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	public static String readInputStream(InputStream inputStream) throws Exception {
+		String line, checkedLine;
+		String msj = "Call LCD.print() with arguments: ";
+		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+		line = reader.readLine();
 
+		while (!line.contentEquals("")) {
+			checkedLine = checkLine(line);
+			if (checkedLine.charAt(0) == 'I') {
+				System.out.println(checkedLine);
+				line = reader.readLine();
+				continue;
+			}
+			msj += "(" + line + ")";
+			line = reader.readLine();
+
+		}
+		reader.close();
+		return msj;
 	}
 
 	/*
-	 * checkLine() checks the next invalid line inputs: 
-	 * 1- String without a comma.
-	 * 2- String with more than one comma.
-	 * 3- String with no specified size.
-	 * 4- Size is a valid number.
-	 * 5- Size is in range.
-	 * 6- Number to display is specified.
-	 * 7- Number to display is a valid number.
+	 * checkLine() checks the next invalid line inputs: 1- String without a comma.
+	 * 2- String with more than one comma. 3- String with no specified size. 4- Size
+	 * is a valid number. 5- Size is in range. 6- Number to display is specified. 7-
+	 * Number to display is a valid number.
 	 */
 
 	public static String checkLine(String line) {
