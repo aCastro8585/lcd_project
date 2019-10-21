@@ -17,6 +17,11 @@ public class LCDprinter {
 	}
     public static void printNumbers(int size, String number) {
     	for (int i = 0; i < 2*size+3; i++) {
+    		for (int k=0;k<size+2;k++) { 
+    			
+    			System.out.print(" ");
+
+    		}
     		System.out.print("\n");
     	}
 
