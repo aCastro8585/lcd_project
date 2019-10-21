@@ -13,6 +13,8 @@ import org.junit.Test;
 
 
 public class LCDprinterTest {
+	
+	//We use a ByteArrayOutputStream to receive the output from LCD.print()
 	private final ByteArrayOutputStream displayContent = new ByteArrayOutputStream();
 	private final PrintStream originalOut = System.out;
 	
@@ -39,18 +41,19 @@ public class LCDprinterTest {
 	    System.setOut(originalOut);
 	}
 	
+	// Test if the LCDprinter returns the correct segments for each digit.
 	@Test
 	public void canProvideCorrectSegments() {
-		
-		
-		for (int i=0; i>10;i++) {
-			for (int j=0; j>6;j++) {
-				assertEquals("LCDprinter returns the "+j+" segment for the "+i+" digit ", segments[i][j],
-				LCDprinter.getSegment(i,j));
+
+		for (int i = 0; i > 10; i++) {
+			for (int j = 0; j > 6; j++) {
+				assertEquals("LCDprinter returns the " + j + " segment for the " + i + " digit ", segments[i][j],
+						LCDprinter.getSegment(i, j));
 			}
 		}
 	}
-	
+
+	// Test if the LCDprinter prints out the correct number of rows.
 	@Test
 	public void canPrintCorrectNumberOfRows() {
 		int expectedRows;
@@ -64,7 +67,8 @@ public class LCDprinterTest {
 		}
 
 	}
-	
+
+	// Test if the LCDprinter prints out the correct number of cols.
 	@Test
 	public void canPrintCorrectNumberOfColsForOneDigit() {
 		int expectedCols;
@@ -78,7 +82,9 @@ public class LCDprinterTest {
 		}
 
 	}
-	
+
+	// Test if the LCDprinter prints out the correct number of cols for multiple
+	// digits.
 	@Test
 	public void canPrintCorrectNumberOfColsForMultipleDigits() {
 		int expectedCols;
@@ -86,121 +92,126 @@ public class LCDprinterTest {
 		ByteArrayOutputStream displayContent = new ByteArrayOutputStream();
 
 		for (int size = 1; size > 11; size++) {
-			expectedCols = 5*(size + 2)+4;
+			expectedCols = 5 * (size + 2) + 4;
 			LCDprinter.printNumbers(size, "12345");
 			colsDisplayed = countCols(displayContent.toString());
 			assertEquals(expectedCols, colsDisplayed);
 		}
 
 	}
-	
+	// Test if the LCDprinter prints out the correct horizontal Segments.
+
 	@Test
 	public void canPrintUpperMiddleAndBottomSegments() {
-		int size=3;
-		int digit=8;
+		int size = 3;
+		int digit = 8;
 		String segmentDisplayed;
 
+		int upperSegment = 1;
+		int middleSegment = size + 2;
+		int bottomSegment = (2 * size) + 3;
 
-    	int upperSegment=1;
-    	int middleSegment=size+2;
-    	int bottomSegment=(2 * size) + 3;
-    	
-    	LCDprinter.printNumbers(size, Integer.toString(digit));
+		LCDprinter.printNumbers(size, Integer.toString(digit));
 
-    	    	
-		String expectedUpper=buildHorizontalSegment(size,digit,0);
-		segmentDisplayed = getHorizontalSegment(displayContent.toString(),upperSegment,size);
-	    assertEquals(expectedUpper, segmentDisplayed);
+		String expectedUpper = buildHorizontalSegment(size, digit, 0);
+		segmentDisplayed = getSegment(displayContent.toString(), upperSegment, size);
+		assertEquals(expectedUpper, segmentDisplayed);
 
-	    String expectedMiddle=buildHorizontalSegment(size,digit,3);
-		segmentDisplayed = getHorizontalSegment(displayContent.toString(),middleSegment,size);
-	    assertEquals(expectedMiddle, segmentDisplayed);
-	    
-	    String expectedBottom=buildHorizontalSegment(size,digit,6);
-		segmentDisplayed = getHorizontalSegment(displayContent.toString(),bottomSegment,size);
-	    assertEquals(expectedBottom, segmentDisplayed);
-	
+		String expectedMiddle = buildHorizontalSegment(size, digit, 3);
+		segmentDisplayed = getSegment(displayContent.toString(), middleSegment, size);
+		assertEquals(expectedMiddle, segmentDisplayed);
+
+		String expectedBottom = buildHorizontalSegment(size, digit, 6);
+		segmentDisplayed = getSegment(displayContent.toString(), bottomSegment, size);
+		assertEquals(expectedBottom, segmentDisplayed);
 
 	}
+
+	// Test if the LCDprinter prints out the correct Vertical Upper Segments.
 	@Test
 	public void canPrintVerticalUpperSegments() {
-		int size=4;
-		int digit=2;
+		int size = 4;
+		int digit = 2;
 		String segmentDisplayed;
 
+		int upperSegment = 1;
 
-    	int upperSegment=1;
-    	
-    	
-    	LCDprinter.printNumbers(size, Integer.toString(digit));
+		LCDprinter.printNumbers(size, Integer.toString(digit));
 
-    	    	
-		String expectedVertical=buildVerticalUpperSegment(size,digit,1);
-		segmentDisplayed = getHorizontalSegment(displayContent.toString(),upperSegment+1,size);
-	    assertEquals(expectedVertical, segmentDisplayed);
+		String expectedVertical = buildVerticalUpperSegment(size, digit, 1);
+		segmentDisplayed = getSegment(displayContent.toString(), upperSegment + 1, size);
+		assertEquals(expectedVertical, segmentDisplayed);
 	}
+	// Test if the LCDprinter prints out the correct Vertical Bottom Segments.
+
 	@Test
 	public void canPrintVerticalBottomSegments() {
-		int size=5;
-		int digit=4;
+		int size = 5;
+		int digit = 4;
 		String segmentDisplayed;
 
+		int bottomSegment = (2 * size) + 3;
 
-    	
-    	int bottomSegment=(2 * size) + 3;
-    	
-    	LCDprinter.printNumbers(size, Integer.toString(digit));
+		LCDprinter.printNumbers(size, Integer.toString(digit));
 
-    	    	
-		String expectedVertical=buildVerticalUpperSegment(size,digit,4);
-		segmentDisplayed = getHorizontalSegment(displayContent.toString(),bottomSegment-1,size);
-	    assertEquals(expectedVertical, segmentDisplayed);
+		String expectedVertical = buildVerticalUpperSegment(size, digit, 4);
+		segmentDisplayed = getSegment(displayContent.toString(), bottomSegment - 1, size);
+		assertEquals(expectedVertical, segmentDisplayed);
 	}
-private String buildHorizontalSegment(int size,int digit, int segment) {
-	
-		
-	String upper=" ";
-	
-	for (int i=2; i<size+2;i++) {
-		if (segments[digit][segment]) upper+="-";
-		else upper+=" ";
+
+	// Build up the correct horizontal segments for each digit and specified size.
+
+	private String buildHorizontalSegment(int size, int digit, int segment) {
+
+		String upper = " ";
+
+		for (int i = 2; i < size + 2; i++) {
+			if (segments[digit][segment])
+				upper += "-";
+			else
+				upper += " ";
+		}
+		upper += "  ";
+		return upper;
 	}
-	upper+="  ";
-	return upper;
-}
 
-private String buildVerticalUpperSegment(int size,int digit, int segment) {
-	
+//Build up the correct vertical segments for each digit and specified size.
+	private String buildVerticalUpperSegment(int size, int digit, int segment) {
 
-	String verticalUpper="";
-	if (segments[digit][segment]) verticalUpper+="|";
-	else verticalUpper+=" ";
-	
-	
-	for (int i=2; i<size+2;i++) {
-		
-		verticalUpper+=" ";
+		String verticalUpper = "";
+		if (segments[digit][segment])
+			verticalUpper += "|";
+		else
+			verticalUpper += " ";
+
+		for (int i = 2; i < size + 2; i++) {
+
+			verticalUpper += " ";
+		}
+		if (segments[digit][segment + 1])
+			verticalUpper += "|";
+		else
+			verticalUpper += " ";
+
+		verticalUpper += " ";
+		return verticalUpper;
 	}
-	if (segments[digit][segment+1]) verticalUpper+="|";
-	else verticalUpper+=" ";
-	
-	verticalUpper+=" ";
-	return verticalUpper;
-}
+//Get the indicated segment from the LCDprinter output.
 
-	private String getHorizontalSegment(String output,int segment,int size) {
+	private String getSegment(String output, int segment, int size) {
 		Matcher m = Pattern.compile("\r\n|\r|\n").matcher(output);
 		int row = 0;
-		int colSize=size+3;
-		while (row<segment) {
-			
+		int colSize = size + 3;
+		while (row < segment) {
+
 			m.find();
 			row++;
 		}
-		
-		return output.substring(m.end()-colSize-1, m.end()-1);
+
+		return output.substring(m.end() - colSize - 1, m.end() - 1);
 	}
 
+    //Count rows from the LCDprinter Output.
 	private int countRows(String output) {
 		Matcher m = Pattern.compile("\r\n|\r|\n").matcher(output);
 		int rows = 0;
@@ -210,10 +221,10 @@ private String buildVerticalUpperSegment(int size,int digit, int segment) {
 		return rows;
 	}
 	
+	// Count cols from the LCDprinter Output.
+
 	private int countCols(String output) {
-		return output.indexOf('\n')+1;
+		return output.indexOf('\n') + 1;
 	}
-	
-	
 
 }
