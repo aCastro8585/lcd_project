@@ -83,7 +83,7 @@ public class LCDprinterTest {
 	
 	@Test
 	public void canPrintUpperMiddleAndBottomSegments() {
-		int size=1;
+		int size=3;
 		int digit=8;
 		String segmentDisplayed;
 
@@ -103,11 +103,34 @@ public class LCDprinterTest {
 
 	    String expectedMiddle=buildHorizontalSegment(size,digit,3);
 		segmentDisplayed = getHorizontalSegment(displayContent.toString(),middleSegment,size);
-	    assertEquals(expectedUpper, segmentDisplayed);
+	    assertEquals(expectedMiddle, segmentDisplayed);
 	    
 	    String expectedBottom=buildHorizontalSegment(size,digit,6);
 		segmentDisplayed = getHorizontalSegment(displayContent.toString(),bottomSegment,size);
-	    assertEquals(expectedUpper, segmentDisplayed);
+	    assertEquals(expectedBottom, segmentDisplayed);
+	
+
+	}
+	@Test
+	public void canPrintVerticalUpperSegments() {
+		int size=4;
+		int digit=2;
+		String segmentDisplayed;
+
+     	ByteArrayOutputStream displayContent = new ByteArrayOutputStream();
+    	System.setOut(new PrintStream(displayContent));
+
+    	int upperSegment=1;
+    	int bottomSegment=(2 * size) + 3;
+    	
+    	LCDprinter.printNumbers(size, Integer.toString(digit));
+
+    	    	
+		String expectedVertical=buildVerticalUpperSegment(size,digit,1);
+		segmentDisplayed = getHorizontalSegment(displayContent.toString(),upperSegment+1,size);
+	    assertEquals(expectedVertical, segmentDisplayed);
+
+	   
 	
 
 	}
@@ -133,6 +156,35 @@ private String buildHorizontalSegment(int size,int digit, int segment) {
 	}
 	upper+="  ";
 	return upper;
+}
+
+private String buildVerticalUpperSegment(int size,int digit, int segment) {
+	
+	boolean[][] segments = {{true,true,true,false,true,true,true},
+	          {false,false,true,false,false,true,false},
+	          {true,false,true,true,true,false,true},
+	          {true,false,true,true,false,true,true},
+	          {false,true,true,true,false,true,false},	
+	          {true,true,false,true,false,true,true},	
+	          {true,true,false,true,true,true,true},	
+	          {true,false,true,false,false,true,false},	
+	          {true,true,true,true,true,true,true},	
+	          {true,true,true,true,false,true,true},	
+          };
+	String verticalUpper="";
+	if (segments[digit][segment]) verticalUpper+="|";
+	else verticalUpper+=" ";
+	
+	
+	for (int i=2; i<size+2;i++) {
+		
+		verticalUpper+=" ";
+	}
+	if (segments[digit][segment+1]) verticalUpper+="|";
+	else verticalUpper+=" ";
+	
+	verticalUpper+=" ";
+	return verticalUpper;
 }
 
 	private String getHorizontalSegment(String output,int segment,int size) {
