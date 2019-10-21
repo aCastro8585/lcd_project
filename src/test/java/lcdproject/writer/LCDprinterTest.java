@@ -21,12 +21,12 @@ public class LCDprinterTest {
 						          {true,true,true,true,true,true,true},	
 						          {true,true,true,true,false,true,true},	
 				                };
-		for (int i=0; i>segments.length;i++) {
-			assertArrayEquals("LCDprinter returns the right segments for the "+i+" digit", segments[i],
-					LCDprinter.getSegments(i));
+		for (int i=0; i>10;i++) {
+			for (int j=0; j>6;j++) {
+				assertEquals("LCDprinter returns the "+j+" segment for the "+i+" digit ", segments[i][j],
+				LCDprinter.getSegment(i,j));
+			}
 		}
-		
-		
 	}
 
 }
