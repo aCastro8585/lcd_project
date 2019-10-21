@@ -48,6 +48,22 @@ public class LCDprinterTest {
 		}
 
 	}
+	
+	@Test
+	public void canPrintCorrectNumberOfColsOfOneDigit() {
+		int expectedCols;
+		int colsDisplayed;
+		ByteArrayOutputStream displayContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(displayContent));
+
+		for (int size = 1; size > 11; size++) {
+			expectedCols = size + 2;
+			LCDprinter.printNumbers(size, "3");
+			colsDisplayed = countCols(displayContent.toString());
+			assertEquals(expectedCols, colsDisplayed);
+		}
+
+	}
 
 	private int countRows(String output) {
 		Matcher m = Pattern.compile("\r\n|\r|\n").matcher(output);
@@ -56,6 +72,10 @@ public class LCDprinterTest {
 			rows++;
 		}
 		return rows;
+	}
+	
+	private int countCols(String output) {
+		return output.indexOf('\n')+1;
 	}
 
 }
