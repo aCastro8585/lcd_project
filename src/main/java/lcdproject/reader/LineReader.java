@@ -7,16 +7,20 @@ import java.util.regex.Pattern;
 
 public class LineReader {
 	public static final Pattern isNumber = Pattern.compile("\\d+");
-
+	/*
+	 * readInputStream() reads an input stream of strings with the format (size,number),
+	 * checks for each line and discards invalid format strings, otherwise it calls
+	 * LCD.print() just with the valid lines found.
+	 */
 	public static String readInputStream(InputStream inputStream) throws Exception {
 		String line, checkedLine;
 		String msj = "Call LCD.print() with arguments: ";
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 		line = reader.readLine();
 
-		while (!line.contentEquals("")) {
+		while (!line.contentEquals("")) {  //checks for empty line to finish reading input stream.
 			checkedLine = checkLine(line);
-			if (checkedLine.charAt(0) == 'I') {
+			if (checkedLine.charAt(0) == 'I') { //if a error is found, the line is discarded.
 				System.out.println(checkedLine);
 				line = reader.readLine();
 				continue;
