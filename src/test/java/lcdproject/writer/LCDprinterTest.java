@@ -199,23 +199,23 @@ public class LCDprinterTest {
 //Get the indicated segment from the LCDprinter output.
 
 	private String getSegment(String output, int segment, int size) {
-		Matcher m = Pattern.compile("\r\n|\r|\n").matcher(output);
+		Matcher lines = Pattern.compile("\r\n|\r|\n").matcher(output);
 		int row = 0;
 		int colSize = size + 3;
 		while (row < segment) {
 
-			m.find();
+			lines.find();
 			row++;
 		}
 
-		return output.substring(m.end() - colSize - 1, m.end() - 1);
+		return output.substring(lines.end() - colSize - 1, lines.end() - 1);
 	}
 
     //Count rows from the LCDprinter Output.
 	private int countRows(String output) {
-		Matcher m = Pattern.compile("\r\n|\r|\n").matcher(output);
+		Matcher lines = Pattern.compile("\r\n|\r|\n").matcher(output);
 		int rows = 0;
-		while (m.find()) {
+		while (lines.find()) {
 			rows++;
 		}
 		return rows;
