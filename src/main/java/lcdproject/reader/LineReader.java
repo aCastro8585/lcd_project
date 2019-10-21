@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.regex.Pattern;
 
+import lcdproject.writer.LCDprinter;
+
 public class LineReader {
 	public static final Pattern isNumber = Pattern.compile("\\d+");
 	/*
@@ -12,8 +14,12 @@ public class LineReader {
 	 * checks for each line and discards invalid format strings, otherwise it calls
 	 * LCD.print() just with the valid lines found.
 	 */
+	
+
 	public static String readInputStream(InputStream inputStream) throws Exception {
-		String line, checkedLine;
+		String line, checkedLine, number;
+		String[] lineVector;
+		int size;
 		String msj = "Call LCD.print() with arguments: ";
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 		line = reader.readLine();
@@ -25,7 +31,11 @@ public class LineReader {
 				line = reader.readLine();
 				continue;
 			}
+			lineVector= line.split(",");
+			size=Integer.parseInt(lineVector[0]);
+			number=lineVector[1];
 			msj += "(" + line + ")";
+			LCDprinter.printNumbers(size, number); //Calls printer on valid lines;
 			line = reader.readLine();
 
 		}
