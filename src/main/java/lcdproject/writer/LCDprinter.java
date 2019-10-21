@@ -16,6 +16,10 @@ public class LCDprinter {
 		return SEGMENTS[digit][segment];
 	}
 	
+	public static void main (String args[]) {
+		printNumbers(1,"8343453");
+		}
+	
 	
 	public static void printNumbers(int size, String number) {
 		int digit;
@@ -33,21 +37,37 @@ public class LCDprinter {
 					}
 					System.out.print(" ");
 					}
-				
-			
-				else {
-				
-				for (int k = 0; k < size + 2; k++) {
+					if (i > 0 && i < (size + 1)) {
+					
+					if (getSegment(digit,1)) System.out.print("|");
+					else System.out.print(" ");
 
-					System.out.print(" ");
+					for (int k=2;k<size+2;k++) {
+						System.out.print(" ");
 
+					}
+					if (getSegment(digit,2)) System.out.print("|");
+					else System.out.print(" ");
 				}
-				
+			
+				  if (i > (size + 1) && i < (2*size + 2)) {
+						
+						if (getSegment(digit,4)) System.out.print("|");
+						else System.out.print(" ");
+
+						for (int k=2;k<size+2;k++) {
+							System.out.print(" ");
+
+						}
+						if (getSegment(digit,5)) System.out.print("|");
+						else System.out.print(" ");
+					}
+				  System.out.print(" ");
 			}
-				System.out.print(" ");
-		}
 			System.out.print("\n");
+		}
+			
 	}
 		
 	}
-}
+

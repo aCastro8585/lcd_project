@@ -121,7 +121,7 @@ public class LCDprinterTest {
     	System.setOut(new PrintStream(displayContent));
 
     	int upperSegment=1;
-    	int bottomSegment=(2 * size) + 3;
+    	
     	
     	LCDprinter.printNumbers(size, Integer.toString(digit));
 
@@ -129,10 +129,25 @@ public class LCDprinterTest {
 		String expectedVertical=buildVerticalUpperSegment(size,digit,1);
 		segmentDisplayed = getHorizontalSegment(displayContent.toString(),upperSegment+1,size);
 	    assertEquals(expectedVertical, segmentDisplayed);
+	}
+	@Test
+	public void canPrintVerticalBottomSegments() {
+		int size=5;
+		int digit=4;
+		String segmentDisplayed;
 
-	   
-	
+     	ByteArrayOutputStream displayContent = new ByteArrayOutputStream();
+    	System.setOut(new PrintStream(displayContent));
 
+    	
+    	int bottomSegment=(2 * size) + 3;
+    	
+    	LCDprinter.printNumbers(size, Integer.toString(digit));
+
+    	    	
+		String expectedVertical=buildVerticalUpperSegment(size,digit,4);
+		segmentDisplayed = getHorizontalSegment(displayContent.toString(),bottomSegment-1,size);
+	    assertEquals(expectedVertical, segmentDisplayed);
 	}
 private String buildHorizontalSegment(int size,int digit, int segment) {
 	
