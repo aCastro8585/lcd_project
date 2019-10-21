@@ -163,38 +163,38 @@ public class LCDprinterTest {
 
 	private String buildHorizontalSegment(int size, int digit, int segment) {
 
-		String upper = " ";
+		String horizontalSegment = " ";
 
 		for (int i = 2; i < size + 2; i++) {
 			if (segments[digit][segment])
-				upper += "-";
+				horizontalSegment += "-";
 			else
-				upper += " ";
+				horizontalSegment += " ";
 		}
-		upper += "  ";
-		return upper;
+		horizontalSegment += "  ";
+		return horizontalSegment;
 	}
 
 //Build up the correct vertical segments for each digit and specified size.
 	private String buildVerticalUpperSegment(int size, int digit, int segment) {
 
-		String verticalUpper = "";
+		String verticalSegment = "";
 		if (segments[digit][segment])
-			verticalUpper += "|";
+			verticalSegment += "|";
 		else
-			verticalUpper += " ";
+			verticalSegment += " ";
 
 		for (int i = 2; i < size + 2; i++) {
 
-			verticalUpper += " ";
+			verticalSegment += " ";
 		}
 		if (segments[digit][segment + 1])
-			verticalUpper += "|";
+			verticalSegment += "|";
 		else
-			verticalUpper += " ";
+			verticalSegment += " ";
 
-		verticalUpper += " ";
-		return verticalUpper;
+		verticalSegment += " ";
+		return verticalSegment;
 	}
 //Get the indicated segment from the LCDprinter output.
 
