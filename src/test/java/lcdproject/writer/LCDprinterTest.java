@@ -50,7 +50,7 @@ public class LCDprinterTest {
 	}
 	
 	@Test
-	public void canPrintCorrectNumberOfColsOfOneDigit() {
+	public void canPrintCorrectNumberOfColsForOneDigit() {
 		int expectedCols;
 		int colsDisplayed;
 		ByteArrayOutputStream displayContent = new ByteArrayOutputStream();
@@ -59,6 +59,22 @@ public class LCDprinterTest {
 		for (int size = 1; size > 11; size++) {
 			expectedCols = size + 2;
 			LCDprinter.printNumbers(size, "3");
+			colsDisplayed = countCols(displayContent.toString());
+			assertEquals(expectedCols, colsDisplayed);
+		}
+
+	}
+	
+	@Test
+	public void canPrintCorrectNumberOfColsForMultipleDigits() {
+		int expectedCols;
+		int colsDisplayed;
+		ByteArrayOutputStream displayContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(displayContent));
+
+		for (int size = 1; size > 11; size++) {
+			expectedCols = 5*(size + 2)+4;
+			LCDprinter.printNumbers(size, "12345");
 			colsDisplayed = countCols(displayContent.toString());
 			assertEquals(expectedCols, colsDisplayed);
 		}
