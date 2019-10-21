@@ -80,6 +80,73 @@ public class LCDprinterTest {
 		}
 
 	}
+	
+	@Test
+	public void canPrintUpperMiddleAndBottomSegments() {
+		int size=1;
+		int digit=8;
+		String segmentDisplayed;
+
+     	ByteArrayOutputStream displayContent = new ByteArrayOutputStream();
+    	System.setOut(new PrintStream(displayContent));
+
+    	int upperSegment=1;
+    	int middleSegment=size+2;
+    	int bottomSegment=(2 * size) + 3;
+    	
+    	LCDprinter.printNumbers(size, Integer.toString(digit));
+
+    	    	
+		String expectedUpper=buildHorizontalSegment(size,digit,0);
+		segmentDisplayed = getHorizontalSegment(displayContent.toString(),upperSegment,size);
+	    assertEquals(expectedUpper, segmentDisplayed);
+
+	    String expectedMiddle=buildHorizontalSegment(size,digit,3);
+		segmentDisplayed = getHorizontalSegment(displayContent.toString(),middleSegment,size);
+	    assertEquals(expectedUpper, segmentDisplayed);
+	    
+	    String expectedBottom=buildHorizontalSegment(size,digit,6);
+		segmentDisplayed = getHorizontalSegment(displayContent.toString(),bottomSegment,size);
+	    assertEquals(expectedUpper, segmentDisplayed);
+	
+
+	}
+private String buildHorizontalSegment(int size,int digit, int segment) {
+	
+	boolean[][] segments = {{true,true,true,false,true,true,true},
+	          {false,false,true,false,false,true,false},
+	          {true,false,true,true,true,false,true},
+	          {true,false,true,true,false,true,true},
+	          {false,true,true,true,false,true,false},	
+	          {true,true,false,true,false,true,true},	
+	          {true,true,false,true,true,true,true},	
+	          {true,false,true,false,false,true,false},	
+	          {true,true,true,true,true,true,true},	
+	          {true,true,true,true,false,true,true},	
+          };
+	
+	String upper=" ";
+	
+	for (int i=2; i<size+2;i++) {
+		if (segments[digit][segment]) upper+="-";
+		else upper+=" ";
+	}
+	upper+="  ";
+	return upper;
+}
+
+	private String getHorizontalSegment(String output,int segment,int size) {
+		Matcher m = Pattern.compile("\r\n|\r|\n").matcher(output);
+		int row = 0;
+		int colSize=size+3;
+		while (row<segment) {
+			
+			m.find();
+			row++;
+		}
+		
+		return output.substring(m.end()-colSize-1, m.end()-1);
+	}
 
 	private int countRows(String output) {
 		Matcher m = Pattern.compile("\r\n|\r|\n").matcher(output);
@@ -93,5 +160,7 @@ public class LCDprinterTest {
 	private int countCols(String output) {
 		return output.indexOf('\n')+1;
 	}
+	
+	
 
 }
