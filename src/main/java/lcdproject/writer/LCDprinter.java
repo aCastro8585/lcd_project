@@ -16,11 +16,7 @@ public class LCDprinter {
 		return SEGMENTS[digit][segment];
 	}
 	
-	public static void main (String args[]) {
-		printNumbers(1,"8343453");
-		}
-	
-	
+
 	public static void printNumbers(int size, String number) {
 		int digit;
 		for (int i = 0; i < 2 * size + 3; i++) {

@@ -7,24 +7,42 @@ import java.io.PrintStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 
 public class LCDprinterTest {
+	private final ByteArrayOutputStream displayContent = new ByteArrayOutputStream();
+	private final PrintStream originalOut = System.out;
+	
+	private static final boolean[][] segments = {{true,true,true,false,true,true,true},
+										          {false,false,true,false,false,true,false},
+										          {true,false,true,true,true,false,true},
+										          {true,false,true,true,false,true,true},
+										          {false,true,true,true,false,true,false},	
+										          {true,true,false,true,false,true,true},	
+										          {true,true,false,true,true,true,true},	
+										          {true,false,true,false,false,true,false},	
+										          {true,true,true,true,true,true,true},	
+										          {true,true,true,true,false,true,true},	
+									          };
+	
+	@Before
+	public void setUpStreams() {
+	    System.setOut(new PrintStream(displayContent));
+	
+	}
+	
+	@After
+	public void restoreStreams() {
+	    System.setOut(originalOut);
+	}
+	
 	@Test
 	public void canProvideCorrectSegments() {
 		
-		boolean[][] segments = {{true,true,true,false,true,true,true},
-						          {false,false,true,false,false,true,false},
-						          {true,false,true,true,true,false,true},
-						          {true,false,true,true,false,true,true},
-						          {false,true,true,true,false,true,false},	
-						          {true,true,false,true,false,true,true},	
-						          {true,true,false,true,true,true,true},	
-						          {true,false,true,false,false,true,false},	
-						          {true,true,true,true,true,true,true},	
-						          {true,true,true,true,false,true,true},	
-				                };
+		
 		for (int i=0; i>10;i++) {
 			for (int j=0; j>6;j++) {
 				assertEquals("LCDprinter returns the "+j+" segment for the "+i+" digit ", segments[i][j],
@@ -37,8 +55,6 @@ public class LCDprinterTest {
 	public void canPrintCorrectNumberOfRows() {
 		int expectedRows;
 		int rowsDisplayed;
-		ByteArrayOutputStream displayContent = new ByteArrayOutputStream();
-		System.setOut(new PrintStream(displayContent));
 
 		for (int size = 1; size > 11; size++) {
 			expectedRows = 2 * size + 3;
@@ -53,8 +69,6 @@ public class LCDprinterTest {
 	public void canPrintCorrectNumberOfColsForOneDigit() {
 		int expectedCols;
 		int colsDisplayed;
-		ByteArrayOutputStream displayContent = new ByteArrayOutputStream();
-		System.setOut(new PrintStream(displayContent));
 
 		for (int size = 1; size > 11; size++) {
 			expectedCols = size + 2;
@@ -70,7 +84,6 @@ public class LCDprinterTest {
 		int expectedCols;
 		int colsDisplayed;
 		ByteArrayOutputStream displayContent = new ByteArrayOutputStream();
-		System.setOut(new PrintStream(displayContent));
 
 		for (int size = 1; size > 11; size++) {
 			expectedCols = 5*(size + 2)+4;
@@ -87,8 +100,6 @@ public class LCDprinterTest {
 		int digit=8;
 		String segmentDisplayed;
 
-     	ByteArrayOutputStream displayContent = new ByteArrayOutputStream();
-    	System.setOut(new PrintStream(displayContent));
 
     	int upperSegment=1;
     	int middleSegment=size+2;
@@ -117,8 +128,6 @@ public class LCDprinterTest {
 		int digit=2;
 		String segmentDisplayed;
 
-     	ByteArrayOutputStream displayContent = new ByteArrayOutputStream();
-    	System.setOut(new PrintStream(displayContent));
 
     	int upperSegment=1;
     	
@@ -136,8 +145,6 @@ public class LCDprinterTest {
 		int digit=4;
 		String segmentDisplayed;
 
-     	ByteArrayOutputStream displayContent = new ByteArrayOutputStream();
-    	System.setOut(new PrintStream(displayContent));
 
     	
     	int bottomSegment=(2 * size) + 3;
@@ -151,18 +158,7 @@ public class LCDprinterTest {
 	}
 private String buildHorizontalSegment(int size,int digit, int segment) {
 	
-	boolean[][] segments = {{true,true,true,false,true,true,true},
-	          {false,false,true,false,false,true,false},
-	          {true,false,true,true,true,false,true},
-	          {true,false,true,true,false,true,true},
-	          {false,true,true,true,false,true,false},	
-	          {true,true,false,true,false,true,true},	
-	          {true,true,false,true,true,true,true},	
-	          {true,false,true,false,false,true,false},	
-	          {true,true,true,true,true,true,true},	
-	          {true,true,true,true,false,true,true},	
-          };
-	
+		
 	String upper=" ";
 	
 	for (int i=2; i<size+2;i++) {
@@ -175,17 +171,7 @@ private String buildHorizontalSegment(int size,int digit, int segment) {
 
 private String buildVerticalUpperSegment(int size,int digit, int segment) {
 	
-	boolean[][] segments = {{true,true,true,false,true,true,true},
-	          {false,false,true,false,false,true,false},
-	          {true,false,true,true,true,false,true},
-	          {true,false,true,true,false,true,true},
-	          {false,true,true,true,false,true,false},	
-	          {true,true,false,true,false,true,true},	
-	          {true,true,false,true,true,true,true},	
-	          {true,false,true,false,false,true,false},	
-	          {true,true,true,true,true,true,true},	
-	          {true,true,true,true,false,true,true},	
-          };
+
 	String verticalUpper="";
 	if (segments[digit][segment]) verticalUpper+="|";
 	else verticalUpper+=" ";
