@@ -118,7 +118,7 @@ public class LineReaderTest {
 	@Test
 	public void canReadInputLinesAndCallLcdPrintMethod() throws Exception {
 		String testCases = "2,2\n" + ",1\n" + "1,3\n" // Test cases, some valid, some invalid.
-				+ "e,2\n" + "3," + "\n\n";
+				+ "e,2\n" + "3,\n" + "0,0";
 		InputStream inputStream = new ByteArrayInputStream(testCases.getBytes());
 
 		String correctMessage = "Call LCD.print() with arguments: (2,2)(1,3)";

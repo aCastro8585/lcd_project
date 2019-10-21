@@ -15,6 +15,9 @@ public class LineReader {
 	 * LCD.print() just with the valid lines found.
 	 */
 	
+	public static void main(String args[]) throws Exception {
+		readInputStream(System.in);
+	}
 
 	public static String readInputStream(InputStream inputStream) throws Exception {
 		String line, checkedLine, number;
@@ -24,7 +27,7 @@ public class LineReader {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 		line = reader.readLine();
 
-		while (!line.contentEquals("")) {  //checks for empty line to finish reading input stream.
+		while (!line.contentEquals("0,0")) {  //checks for end line to finish reading input stream.
 			checkedLine = checkLine(line);
 			if (checkedLine.charAt(0) == 'I') { //if a error is found, the line is discarded.
 				System.out.println(checkedLine);
